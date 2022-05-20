@@ -1,20 +1,16 @@
-# postcss-lumen-config-parser
+# Lumen Configuration Parser
 
-[PostCSS] plugin for parsing a Lumen configuration file and generating stylesheets.
+A [PostCSS] plugin for generating CSS from a Lumen theme file.
+
+## What is Lumen?
+Lumen is a design system written in React which is flexible and customisable at its core. It uses theme configuration files to allow you to set custom values for almost anything.
+
+## Basics of theming in Lumen
+Similar to Tailwind CSS, you can define customisations to your deployment in a configuration file.
+
+This file can be in either ```.json``` or ```.yaml``` format.
 
 [PostCSS]: https://github.com/postcss/postcss
-
-```css
-.foo {
-  /* Input example */
-}
-```
-
-```css
-.foo {
-  /* Output example */
-}
-```
 
 ## Usage
 
