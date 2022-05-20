@@ -1,0 +1,45 @@
+{
+  "name": "postcss-lumen-config-parser",
+  "version": "0.0.0",
+  "description": "PostCSS plugin for parsing a Lumen configuration file and generating stylesheets",
+  "keywords": ["postcss", "css", "postcss-plugin", "postcss-lumen-config-parser"],
+  "scripts": {
+    "test": "jest --coverage && eslint ."
+  },
+  "author": "Christian Yalamov <chrisyalamov@gmail.com>",
+  "license": "MIT",
+  "repository": "chrisyalamov/postcss-lumen-config-parser",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "peerDependencies": {
+    "postcss": "^8.3.0"
+  },
+  "devDependencies": {
+    "clean-publish": "^3.4.2",
+    "eslint": "^8.0.1",
+    "eslint-plugin-jest": "^25.2.2",
+    "jest": "^27.3.1",
+    "postcss": "^8.3.11"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 2017
+    },
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "extends": ["eslint:recommended", "plugin:jest/recommended"],
+    "rules": {
+      "jest/expect-expect": "off"
+    }
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "statements": 100
+      }
+    }
+  }
+}
