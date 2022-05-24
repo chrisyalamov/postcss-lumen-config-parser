@@ -41,8 +41,7 @@ As common practice dictates, CSS variables are *mostly* defined under the ```:ro
 
 ```css
 :root {
-    /* Examples of setting colours */
-    --brand-primary-raw: 26, 44, 240;
+    /* Example of setting colours */
     --brand-primary: rgb(26, 44, 240);
 
     /* Examples of global spacing options */
@@ -51,12 +50,14 @@ As common practice dictates, CSS variables are *mostly* defined under the ```:ro
     --padding-multiplier-bottom: 1;
     --padding-multiplier-left: 1.5;
 
-    /* Examples of component variant definitions */
+    /* Examples of component variant definitions with preset values */
     --button-cta-bg: #8a0a59;
     --button-cta-borderPrimary: #730e4c;
     --button-cta-borderSecondary: #4a042f;
 
-    --panel-main-bg: var(--brand-primary);
+    /* Examples of component variant definitions with reference values */
+    --panel-main-bg: var(--brand-500);
+    --panel-main-border: var(--brand-600);
 }
 ```
 
@@ -102,25 +103,23 @@ In your configuration file, you would first define your themes and the core valu
 ```yaml
 themes:
     default:
-        colours:
-            brand-100: "rgb(26, 44, 240)"
-            brand-200: "rgb(12, 24, 210)"
-            ...
-        paddingMultiplierGlobal:
-            x: 1.9
-            y: 1.2
+        brand-100: "rgb(26, 44, 240)"
+        brand-200: "rgb(12, 24, 210)"
+        sm: "0.8em"
+        md: "1.1em"
+        lg: "1.4em"
+        ...
     dark:
-        colours:
-            brand-100: "rgb(99, 35, 75)"
-            brand-200: "rgb(117, 21, 80)"
-            ...
+        brand-100: "rgb(99, 35, 75)"
+        brand-200: "rgb(117, 21, 80)"
+        ...
 
 ```
 
 Then, you can start to define stylesets for different components.
 
 ```yaml
-stylesets:
+components:
     button:                             #component
         cta:                            #variant
             default:                    #theme-default
@@ -140,11 +139,10 @@ Then the Lumen PostCSS plugin would convert this into CSS variables.
     --brand-100: rgb(26, 44, 240);
     --brand-200-raw: 117, 21, 80;
     --brand-200: rgb(117, 21, 80);
+    --sm: 0.8em;
+    --md: 1.1em;
+    --lg: 1.4em;
     /* ... */
-    --padding-multiplier-global-l: 1.9;
-    --padding-multiplier-global-r: 1.9;
-    --padding-multiplier-global-t: 1.2;
-    --padding-multiplier-global-b: 1.2;
 }
 
 :root .lds-button.cta {

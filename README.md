@@ -1,5 +1,8 @@
 # Lumen Configuration Parser
 
+[![Actions Status](https://github.com/chrisyalamov/postcss-lumen-config-parser/workflows/Test/badge.svg)](https://github.com/chrisyalamov/postcss-lumen-config-parser/workflows/Test/badge.svg)
+
+
 A [PostCSS] plugin for generating CSS from a Lumen theme file.
 
 ## What is Lumen?
@@ -9,6 +12,8 @@ Lumen is a design system written in React which is flexible and customisable at 
 Similar to Tailwind CSS, you can define customisations to your deployment in a configuration file.
 
 This file can be in either ```.json``` or ```.yaml``` format.
+
+To find out how to structure your configuration file, check out the [Configuration guide](./Configuration%20guide.md).
 
 [PostCSS]: https://github.com/postcss/postcss
 
