@@ -1,3 +1,4 @@
+![Cover](./Cover.png)
 # Lumen Configuration Parser
 
 [![Actions Status](https://github.com/chrisyalamov/postcss-lumen-config-parser/workflows/Test/badge.svg)](https://github.com/chrisyalamov/postcss-lumen-config-parser/workflows/Test/badge.svg)
