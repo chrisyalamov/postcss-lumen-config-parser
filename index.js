@@ -45,7 +45,7 @@ module.exports = (opts = {}) => {
 
                 Object.keys(opts.components[component][variant][theme] || {}).forEach(prop => {
                   let value = opts.components[component][variant][theme][prop];
-                  let template = /\{([a-zA-Z0-9\-\_]*)\}/g.exec(value);
+                  let template = /\{([a-zA-Z0-9\-_]*)\}/g.exec(value);
                   if (template) {
                     rule.append({ prop: `--lds-${prop}`, value: `var(--${template[1]})` });
                   } else {
