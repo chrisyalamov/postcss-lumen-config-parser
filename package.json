@@ -2,7 +2,12 @@
   "name": "postcss-lumen-config-parser",
   "version": "1.0.0",
   "description": "PostCSS plugin for parsing a Lumen configuration object and generating stylesheets",
-  "keywords": ["postcss", "css", "postcss-plugin", "postcss-lumen-config-parser"],
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "postcss-lumen-config-parser"
+  ],
   "scripts": {
     "test": "jest --coverage && eslint ."
   },
@@ -30,7 +35,10 @@
       "node": true,
       "es6": true
     },
-    "extends": ["eslint:recommended", "plugin:jest/recommended"],
+    "extends": [
+      "eslint:recommended",
+      "plugin:jest/recommended"
+    ],
     "rules": {
       "jest/expect-expect": "off"
     }
@@ -41,5 +49,8 @@
         "statements": 100
       }
     }
+  },
+  "dependencies": {
+    "color": "^4.2.3"
   }
 }
