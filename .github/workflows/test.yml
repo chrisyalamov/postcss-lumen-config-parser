@@ -1,6 +1,6 @@
 name: Test
 on:
-  push:
+  # push:
   pull_request:
 env:
   FORCE_COLOR: 2
