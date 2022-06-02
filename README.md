@@ -1,3 +1,6 @@
+> ⚠️ **Warning**  
+> This plugin has little to no application just yet. It's part of a larger project which is not public at this time.
+
 ![Cover](./Cover.png)
 # Lumen Configuration Parser
 
