@@ -6,7 +6,7 @@ const Color = require('color');
 
 let transformers = {
   button: {
-    bg: (value, theme, opts) => {
+    bg: (value, theme) => {
       let template = /\{([a-zA-Z0-9\-_]*)\}/g.exec(value);
       let bg;
       if (template) {
@@ -18,11 +18,11 @@ let transformers = {
       let 
       borderPrimary, 
       borderSecondary,
-      bgHover,
-      borderPrimaryHover,
-      borderSecondaryHover,
-      bgActive,
-      borderPrimaryActive;
+      bg_hover,
+      borderPrimary_hover,
+      borderSecondary_hover,
+      bg_active,
+      borderPrimary_active;
 
       const color = Color(bg);
       if (theme.mode == "dark") {
