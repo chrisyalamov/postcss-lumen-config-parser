@@ -6,7 +6,7 @@ const Color = require('color');
 
 let transformers = {
   button: {
-    bg: (value, theme, opts) => {
+    bg: (value, theme) => {
       let template = /\{([a-zA-Z0-9\-_]*)\}/g.exec(value);
       let bg;
       if (template) {
@@ -18,11 +18,11 @@ let transformers = {
       let 
       borderPrimary, 
       borderSecondary,
-      bgHover,
-      borderPrimaryHover,
-      borderSecondaryHover,
-      bgActive,
-      borderPrimaryActive;
+      bg_hover,
+      borderPrimary_hover,
+      borderSecondary_hover,
+      bg_active,
+      borderPrimary_active;
 
       const color = Color(bg);
       if (theme.mode == "dark") {
@@ -73,7 +73,7 @@ module.exports = (opts = {}) => {
         if (rule.name === 'lumen' && rule.params === 'themes') {
           // Create a rule for each theme
           themes.forEach(theme => {
-            let selector = theme == "default" ? `:root` : `:root[data-theme="${theme}"]`;
+            let selector = theme == "default" ? `:root` : `[data-theme="${theme}"]`;
             let rule = postcss.rule({ selector });
             // rule.append({ prop: '--theme', value: `"${theme}"` });
             let themeConfig = opts.themes[theme];
@@ -97,8 +97,8 @@ module.exports = (opts = {}) => {
               themes.forEach(theme => {
                 // For each theme...
 
-                // E.g. :root[data-theme="brand-default"] .lds-button-danger
-                let selector = `${theme == "default" ? `:root` : `:root[data-theme="${theme}"]`} .lds-${component}.${variant}`;
+                // E.g. [data-theme="brand-default"] .lds-button-danger
+                let selector = `${theme == "default" ? `` : `[data-theme="${theme}"] `}.lds-${component}.${variant}`;
                 let rule = postcss.rule({ selector });
 
                 Object.keys(opts.components[component][variant][theme] || {}).forEach(prop => {

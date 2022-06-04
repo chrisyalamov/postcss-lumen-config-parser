@@ -25,7 +25,7 @@ it('creates CSS rules for themes', async () => {
 
   let expected = `
 :root {}
-:root[data-theme="dark"] {}`
+[data-theme="dark"] {}`
   await run(base, expected, configuration)
 })
 
@@ -52,7 +52,7 @@ it('creates design tokens', async () => {
     --primary: #000000;
     --secondary: #ffffff
 }
-:root[data-theme="dark"] {
+[data-theme="dark"] {
     --primary: #ffffff;
     --secondary: #000000
 }`
@@ -81,9 +81,9 @@ it('creates CSS rules for component variants', async () => {
 
   let expected = `
 :root {}
-:root[data-theme="dark"] {}
-:root .lds-button.success {}
-:root[data-theme="dark"] .lds-button.success {}`
+[data-theme="dark"] {}
+.lds-button.success {}
+[data-theme="dark"] .lds-button.success {}`
   await run(base, expected, configuration)
 })
 
@@ -115,8 +115,8 @@ it('creates CSS declarations for component variant styles', async () => {
 
   let expected = `
 :root {}
-:root[data-theme="dark"] {}
-:root .lds-button.success {
+[data-theme="dark"] {}
+.lds-button.success {
     --lds-bg: #e6e6e6;
     --lds-borderPrimary-preset: hsl(0, 0%, 81.2%);
     --lds-borderSecondary-preset: hsl(0, 0%, 72.2%);
@@ -127,7 +127,7 @@ it('creates CSS declarations for component variant styles', async () => {
     --lds-borderPrimary_active-preset: hsl(0, 0%, 72.2%);
     --lds-borderPrimary: #bababa
 }
-:root[data-theme="dark"] .lds-button.success {
+[data-theme="dark"] .lds-button.success {
     --lds-bg: #3b3b3b;
     --lds-borderPrimary-preset: hsl(0, 0%, 25.5%);
     --lds-borderSecondary-preset: hsl(0, 0%, 27.8%);
@@ -183,12 +183,12 @@ it('creates CSS declarations with reference values', async () => {
     --redDark: #de1212;
     --redVeryDark: #b30b0b
 }
-:root[data-theme="dark"] {
+[data-theme="dark"] {
     --red: #ff0000;
     --redDark: #752b2b;
     --redVeryDark: #400606
 }
-:root .lds-button.danger {
+.lds-button.danger {
     --lds-bg: #ff0000;
     --lds-borderPrimary-preset: hsl(0, 100%, 45%);
     --lds-borderSecondary-preset: hsl(0, 100%, 40%);
@@ -199,7 +199,7 @@ it('creates CSS declarations with reference values', async () => {
     --lds-borderPrimary_active-preset: hsl(0, 100%, 40%);
     --lds-borderPrimary: var(--redDark)
 }
-:root[data-theme="dark"] .lds-button.danger {
+[data-theme="dark"] .lds-button.danger {
     --lds-borderPrimary: var(--redVeryDark)
 }`
   await run(base, expected, configuration)
