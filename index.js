@@ -2,64 +2,7 @@
  * @type {import('postcss').PluginCreator}
  */
 
-const Color = require('color');
-
-let transformers = {
-  button: {
-    bg: (value, theme) => {
-      let template = /\{([a-zA-Z0-9\-_]*)\}/g.exec(value);
-      let bg;
-      if (template) {
-        bg = theme.tokens[template[1]];
-      } else {
-        bg = value;
-      }
-
-      let 
-      borderPrimary, 
-      borderSecondary,
-      bg_hover,
-      borderPrimary_hover,
-      borderSecondary_hover,
-      bg_active,
-      borderPrimary_active;
-
-      const color = Color(bg);
-      if (theme.mode == "dark") {
-        borderPrimary = color.lighten(0.1).hsl();
-        borderSecondary = color.lighten(0.2).hsl();
-        bg_hover = color.lighten(0.25).hsl();
-        borderPrimary_hover = color.lighten(0.3).hsl();
-        borderSecondary_hover = color.lighten(0.4).hsl();
-        bg_active = color.lighten(0.15).hsl();
-        borderPrimary_active = color.lighten(0.2).hsl();
-      } else {
-        borderPrimary = color.darken(0.1).hsl();
-        borderSecondary = color.darken(0.2).hsl();
-        bg_hover = color.darken(0.25).hsl();
-        borderPrimary_hover = color.darken(0.3).hsl();
-        borderSecondary_hover = color.darken(0.4).hsl();
-        bg_active = color.darken(0.15).hsl();
-        borderPrimary_active = color.darken(0.2).hsl();
-      }
-
-      return [
-        { prop: '--lds-bg', value: bg },
-        { prop: '--lds-borderPrimary-preset', value: borderPrimary.string() },
-        { prop: '--lds-borderSecondary-preset', value: borderSecondary.string() },
-        { prop: '--lds-bg_hover-preset', value: bg_hover.string() },
-        { prop: '--lds-borderPrimary_hover-preset', value: borderPrimary_hover.string() },
-        { prop: '--lds-borderSecondary_hover-preset', value: borderSecondary_hover.string() },
-        { prop: '--lds-bg_active-preset', value: bg_active.string() },
-        { prop: '--lds-borderPrimary_active-preset', value: borderPrimary_active.string() },
-      ]
-    }
-  }
-}
-
 module.exports = (opts = {}) => {
-  // Work with options here
-
   // Array with the names of themes
   let themes = Object.keys(opts.themes || {});
 
@@ -103,19 +46,23 @@ module.exports = (opts = {}) => {
 
                 Object.keys(opts.components[component][variant][theme] || {}).forEach(prop => {
                   let value = opts.components[component][variant][theme][prop];
-                  let declarations;
-                  // If transformers exist for this component-property, use it
-                  if (transformers[component] && transformers[component][prop]) {
-                    // Run through transformer
-                    declarations = transformers[component][prop](value, opts.themes[theme]);
+                  let declarations = [];
+
+                  let template = /\{([a-zA-Z0-9\-_]*)\}/g.exec(value);
+                  if (template) {
+                    declarations.push({ prop: `--lds-${prop}`, value: `var(--${template[1]})` });
                   } else {
-                    let template = /\{([a-zA-Z0-9\-_]*)\}/g.exec(value);
-                    if (template) {
-                      declarations = [{ prop: `--lds-${prop}`, value: `var(--${template[1]})` }];
-                    } else {
-                      declarations = [{ prop: `--lds-${prop}`, value: value }];
-                    }
+                    declarations.push({ prop: `--lds-${prop}`, value: value });
                   }
+
+                  // If transformers exist for this component-property, use them
+                  let applicableGenerators = (opts.generators || []).filter(generator => generator.component == component && (generator.property == prop || "*"));
+                  if (applicableGenerators.length) {
+                    // Run through generators
+                    applicableGenerators.forEach(generator => {
+                      declarations.push(...generator.run(value, opts.themes[theme]));
+                    });
+                  } 
                   rule.append(...declarations);
                 });
                 root.append(rule);
