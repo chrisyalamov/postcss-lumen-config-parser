@@ -2,6 +2,8 @@ const postcss = require('postcss')
 
 const plugin = require('./')
 
+const Color = require('color');
+
 async function run(input, output, opts = {}) {
   let result = await postcss([plugin(opts)]).process(input, {
     from: undefined
@@ -87,26 +89,74 @@ it('creates CSS rules for component variants', async () => {
   await run(base, expected, configuration)
 })
 
-it('creates CSS declarations for component variant styles', async () => {
+it('applies generator functions', async () => {
   let configuration = {
-    themes: {
-      default: {
-        mode: "light"
-      },
-      dark: {
-        mode: "dark"
+    generators: [
+      {
+        component: 'button',
+        property: 'bg',
+        run: 
+        (value, theme) => {
+              let template = /\{([a-zA-Z0-9\-_]*)\}/g.exec(value);
+              let bg;
+              if (template) {
+                bg = theme.tokens[template[1]];
+              } else {
+                bg = value;
+              }
+        
+              let 
+              borderPrimary, 
+              borderSecondary,
+              bg_hover,
+              borderPrimary_hover,
+              borderSecondary_hover,
+              bg_active,
+              borderPrimary_active;
+        
+              const color = Color(bg);
+              if (theme.mode == "dark") {
+                borderPrimary = color.lighten(0.1).hsl();
+                borderSecondary = color.lighten(0.2).hsl();
+                bg_hover = color.lighten(0.25).hsl();
+                borderPrimary_hover = color.lighten(0.3).hsl();
+                borderSecondary_hover = color.lighten(0.4).hsl();
+                bg_active = color.lighten(0.15).hsl();
+                borderPrimary_active = color.lighten(0.2).hsl();
+              } else {
+                borderPrimary = color.darken(0.1).hsl();
+                borderSecondary = color.darken(0.2).hsl();
+                bg_hover = color.darken(0.25).hsl();
+                borderPrimary_hover = color.darken(0.3).hsl();
+                borderSecondary_hover = color.darken(0.4).hsl();
+                bg_active = color.darken(0.15).hsl();
+                borderPrimary_active = color.darken(0.2).hsl();
+              }
+        
+              return [
+                { prop: '--lds-borderPrimary-preset', value: borderPrimary.string() },
+                { prop: '--lds-borderSecondary-preset', value: borderSecondary.string() },
+                { prop: '--lds-bg_hover-preset', value: bg_hover.string() },
+                { prop: '--lds-borderPrimary_hover-preset', value: borderPrimary_hover.string() },
+                { prop: '--lds-borderSecondary_hover-preset', value: borderSecondary_hover.string() },
+                { prop: '--lds-bg_active-preset', value: bg_active.string() },
+                { prop: '--lds-borderPrimary_active-preset', value: borderPrimary_active.string() },
+              ]
+            }
       }
+    ],
+    themes: {
+      default: {},
+      dark: {}
     },
     components: {
       button: {
         success: {
           default: {
-            bg: '#e6e6e6',
-            borderPrimary: '#bababa'
+            bg: 'green'
           },
           dark: {
-            bg: '#3b3b3b',
-            borderPrimary: '#8c8c8c'
+            bg: 'darkgreen'
           }
         }
       }
@@ -117,26 +167,24 @@ it('creates CSS declarations for component variant styles', async () => {
 :root {}
 [data-theme="dark"] {}
 .lds-button.success {
-    --lds-bg: #e6e6e6;
-    --lds-borderPrimary-preset: hsl(0, 0%, 81.2%);
-    --lds-borderSecondary-preset: hsl(0, 0%, 72.2%);
-    --lds-bg_hover-preset: hsl(0, 0%, 67.6%);
-    --lds-borderPrimary_hover-preset: hsl(0, 0%, 63.1%);
-    --lds-borderSecondary_hover-preset: hsl(0, 0%, 54.1%);
-    --lds-bg_active-preset: hsl(0, 0%, 76.7%);
-    --lds-borderPrimary_active-preset: hsl(0, 0%, 72.2%);
-    --lds-borderPrimary: #bababa
+    --lds-bg: green;
+    --lds-borderPrimary-preset: hsl(120, 100%, 22.6%);
+    --lds-borderSecondary-preset: hsl(120, 100%, 20.1%);
+    --lds-bg_hover-preset: hsl(120, 100%, 18.8%);
+    --lds-borderPrimary_hover-preset: hsl(120, 100%, 17.6%);
+    --lds-borderSecondary_hover-preset: hsl(120, 100%, 15.1%);
+    --lds-bg_active-preset: hsl(120, 100%, 21.3%);
+    --lds-borderPrimary_active-preset: hsl(120, 100%, 20.1%)
 }
 [data-theme="dark"] .lds-button.success {
-    --lds-bg: #3b3b3b;
-    --lds-borderPrimary-preset: hsl(0, 0%, 25.5%);
-    --lds-borderSecondary-preset: hsl(0, 0%, 27.8%);
-    --lds-bg_hover-preset: hsl(0, 0%, 28.9%);
-    --lds-borderPrimary_hover-preset: hsl(0, 0%, 30.1%);
-    --lds-borderSecondary_hover-preset: hsl(0, 0%, 32.4%);
-    --lds-bg_active-preset: hsl(0, 0%, 26.6%);
-    --lds-borderPrimary_active-preset: hsl(0, 0%, 27.8%);
-    --lds-borderPrimary: #8c8c8c
+    --lds-bg: darkgreen;
+    --lds-borderPrimary-preset: hsl(120, 100%, 17.6%);
+    --lds-borderSecondary-preset: hsl(120, 100%, 15.7%);
+    --lds-bg_hover-preset: hsl(120, 100%, 14.7%);
+    --lds-borderPrimary_hover-preset: hsl(120, 100%, 13.7%);
+    --lds-borderSecondary_hover-preset: hsl(120, 100%, 11.8%);
+    --lds-bg_active-preset: hsl(120, 100%, 16.7%);
+    --lds-borderPrimary_active-preset: hsl(120, 100%, 15.7%)
 }`
   await run(base, expected, configuration)
 })
@@ -189,14 +237,7 @@ it('creates CSS declarations with reference values', async () => {
     --redVeryDark: #400606
 }
 .lds-button.danger {
-    --lds-bg: #ff0000;
-    --lds-borderPrimary-preset: hsl(0, 100%, 45%);
-    --lds-borderSecondary-preset: hsl(0, 100%, 40%);
-    --lds-bg_hover-preset: hsl(0, 100%, 37.5%);
-    --lds-borderPrimary_hover-preset: hsl(0, 100%, 35%);
-    --lds-borderSecondary_hover-preset: hsl(0, 100%, 30%);
-    --lds-bg_active-preset: hsl(0, 100%, 42.5%);
-    --lds-borderPrimary_active-preset: hsl(0, 100%, 40%);
+    --lds-bg: var(--red);
     --lds-borderPrimary: var(--redDark)
 }
 [data-theme="dark"] .lds-button.danger {
