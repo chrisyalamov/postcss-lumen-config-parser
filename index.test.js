@@ -153,7 +153,8 @@ it('applies generator functions', async () => {
       button: {
         success: {
           default: {
-            bg: 'green'
+            bg: 'green',
+            borderSecondary: 'lime'
           },
           dark: {
             bg: 'darkgreen'
@@ -174,7 +175,8 @@ it('applies generator functions', async () => {
     --lds-borderPrimary_hover-preset: hsl(120, 100%, 17.6%);
     --lds-borderSecondary_hover-preset: hsl(120, 100%, 15.1%);
     --lds-bg_active-preset: hsl(120, 100%, 21.3%);
-    --lds-borderPrimary_active-preset: hsl(120, 100%, 20.1%)
+    --lds-borderPrimary_active-preset: hsl(120, 100%, 20.1%);
+    --lds-borderSecondary: lime
 }
 [data-theme="dark"] .lds-button.success {
     --lds-bg: darkgreen;

@@ -56,7 +56,7 @@ module.exports = (opts = {}) => {
                   }
 
                   // If transformers exist for this component-property, use them
-                  let applicableGenerators = (opts.generators || []).filter(generator => generator.component == component && (generator.property == prop || "*"));
+                  let applicableGenerators = (opts.generators || []).filter(generator => generator.component == component && (generator.property == prop || generator.property == "*"));
                   if (applicableGenerators.length) {
                     // Run through generators
                     applicableGenerators.forEach(generator => {
